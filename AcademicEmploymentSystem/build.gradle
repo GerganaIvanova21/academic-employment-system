@@ -25,10 +25,34 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    runtimeOnly 'org.postgresql:postgresql'
+
+
+    //Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //testImplementation 'org.springframework.security: spring-security-test'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    // JUnit 5 Dependency
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2' // Използвайте актуалната версия
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2' // Използвайте актуалната версия
+
+    // Mockito Dependency
+    testImplementation 'org.mockito:mockito-core:5.0.0' // Използвайте актуалната версия
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.0.0' // Използвайте актуалната версия
+
+    // Spring Boot Test Dependency
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    /*implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'*/
 }
 
 tasks.named('test') {
