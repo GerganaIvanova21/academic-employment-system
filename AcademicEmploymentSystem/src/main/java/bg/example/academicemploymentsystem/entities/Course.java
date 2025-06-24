@@ -1,5 +1,6 @@
 package bg.example.academicemploymentsystem.entities;
 
+import bg.example.academicemploymentsystem.type.Semester;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,16 +17,20 @@ import java.util.Set;
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Basic
     @Column(name = "name")
     private String courseName;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "semester", nullable = false)
+    private Semester semester;
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "speiality_id", nullable = false)
+    @JoinColumn(name = "speciality_id", nullable = false)
     private Speciality speciality;
 
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Hour> hours = new HashSet<>();
 }

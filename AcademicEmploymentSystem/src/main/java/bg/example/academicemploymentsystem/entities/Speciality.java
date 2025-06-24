@@ -16,13 +16,13 @@ import java.util.Set;
 public class Speciality {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Basic
     @Column(name = "name")
     private String specialityName;
 
 
-    @OneToMany(mappedBy = "speciality", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "speciality", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Course> courses = new HashSet<>();
 }

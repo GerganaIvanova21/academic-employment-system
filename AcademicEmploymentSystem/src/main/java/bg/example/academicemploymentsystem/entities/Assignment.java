@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Basic
     @Column(name = "title")
@@ -27,8 +27,12 @@ public class Assignment {
     private String description;
 
     @Basic
-    @Column(name = "date")
-    private Timestamp date;
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
+
+    @Basic
+    @Column(name = "due_date")
+    private LocalDateTime dueDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -36,11 +40,11 @@ public class Assignment {
 
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assigned_by", nullable = false)
     private User assignedBy;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assigned_to", nullable = false)
     private User assignedTo;
 

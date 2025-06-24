@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -17,19 +17,19 @@ import java.sql.Time;
 public class Hour {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Basic
     @Column(name = "start_time")
-    private Time startTime;
+    private LocalTime startTime;
 
     @Basic
     @Column(name = "end_time")
-    private Time endTime;
+    private LocalTime endTime;
 
     @Basic
     @Column(name = "day")
-    private Date day;
+    private LocalDate day;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
@@ -39,11 +39,11 @@ public class Hour {
     @Column(name = "room")
     private String room;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

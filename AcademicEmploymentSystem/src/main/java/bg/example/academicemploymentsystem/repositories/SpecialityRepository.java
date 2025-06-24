@@ -5,10 +5,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 @Repository
-public interface SpecialityRepository extends JpaRepository<Speciality, Integer> {
-    Optional<Speciality> findSpecialitiesById(Integer id);
+public interface SpecialityRepository extends JpaRepository<Speciality, Long> {
+    //Optional<Speciality> findSpecialityById(Long id);
 
-    List<Speciality> findSpecialitiesBySpecialityName(String name);
+    List<Speciality> findSpecialityBySpecialityName(String name);
+
+    //Търсене по част от име (ignore case)
+    List<Speciality> findBySpecialityNameContainingIgnoreCase(String specialityName);
+
+    // Сортиране по азбучен ред
+    List<Speciality> findAllByOrderBySpecialityNameAsc();
+
+    boolean existsBySpecialityNameIgnoreCase(String name);
+
+
+
+
 }

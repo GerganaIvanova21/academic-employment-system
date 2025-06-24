@@ -1,12 +1,20 @@
 package bg.example.academicemploymentsystem.type;
 
 public enum Status {
-    PENDING,
-    IN_PROGRESS,
-    COMPLETED,
-    REJECTED,
-    CANCELLED,
-    OVERDUE
+    PENDING("Предстояща"),
+    IN_PROGRESS("В процес"),
+    COMPLETED("Завършена"),
+    REJECTED("Отхвърлена"),
+    CANCELLED("Анулирана"),
+    OVERDUE("Просрочена");
 
+    private final String displayName;
 
+    Status(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }

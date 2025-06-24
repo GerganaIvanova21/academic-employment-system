@@ -5,12 +5,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 
-public interface FacultyRepository extends JpaRepository<Faculty, Integer> {
-    Optional<Faculty> findFacultyById(Integer id);
+public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
     List<Faculty> findFacultyByFacultyName(String name);
+
+
+    //Търсене по част от името (case insensitive)
+    List<Faculty> findByFacultyNameContainingIgnoreCase(String facultyName);
+
+    //Сортиране по азбучен ред
+    List<Faculty> findAllByOrderByFacultyNameAsc();
+
+    //Проверка за съществуване
+    boolean existsByFacultyNameIgnoreCase(String facultyName);
+
+
+
 }

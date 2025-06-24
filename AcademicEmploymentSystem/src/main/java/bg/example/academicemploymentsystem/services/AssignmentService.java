@@ -1,23 +1,22 @@
-package bg.example.academicemploymentsystem.repositories;
+package bg.example.academicemploymentsystem.services;
 
 import bg.example.academicemploymentsystem.entities.Assignment;
 import bg.example.academicemploymentsystem.entities.User;
 import bg.example.academicemploymentsystem.type.Status;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
-public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
+public interface AssignmentService {
 
+    List<Assignment> findAll();
 
     List<Assignment> findAssignmentByTitle(String title);
 
     List<Assignment> findAssignmentByAssignedBy(User assignedBy);
 
     List<Assignment> findAssignmentByAssignedTo(User assignedTo);
+
 
     List<Assignment> findAssignmentByStatus(Status status);
 
@@ -33,15 +32,6 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     //ПР: търсене на всички задачи с „доклад“ в заглавието
     List<Assignment> findByTitleContainingIgnoreCase(String title);
-
-    //Предстоящи задачи /в даден срок/
-    List<Assignment> findByAssignedToAndDueDateBetween(User user, LocalDateTime start, LocalDateTime end);
-
-    //всички задачи, възложени от конкретен потребител след определена дата, сортирани по крайния срок в низходящ ред
-    //List<Assignment> findByAssignedByAndStartDateAfterOrderByDueDateDesc(User assignedBy, LocalDateTime startDate);
-
-
-
 
 
 }

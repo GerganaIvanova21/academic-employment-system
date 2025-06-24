@@ -5,10 +5,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -19,12 +22,14 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
+@SQLDelete(sql = "UPDATE _user SET deleted_at = NOW() WHERE user_id = ?")
+@Where(clause = "deleted_at IS NULL")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer id;
+    private Long id;
 
     @Basic
     @Column(name = "email")
@@ -39,16 +44,32 @@ public class User implements UserDetails {
     private String firstName;
 
     @Basic
+    @Column(name = "middle_name")
+    private String middleName;
+
+    @Basic
     @Column(name = "last_name")
     private String lastName;
 
     @Basic
     @Column(name = "egn")
-    private Character egn;
+    private String egn;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", insertable = false, updatable = false)
+    @Column(name = "role")
     private Role role;
+
+    @Basic
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
+    @Basic
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Basic
+    @Column(name = "deleted_by")
+    private String deletedBy;
 
 
     @Override
@@ -60,13 +81,13 @@ public class User implements UserDetails {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    @OneToMany(mappedBy = "assignedBy", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assignedBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Assignment> assignmentsCreated;
 
-    @OneToMany(mappedBy = "assignedTo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assignedTo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Assignment> assignmentsReceived;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Hour> hours = new HashSet<>();
 
 

@@ -2,10 +2,6 @@ server:
   port: 8081
 
 spring:
-  app:
-    jwtSecret: ni24g6hk5ba5a65a6x6s2c6c6s2
-    jwtExpirationMs: 36000000
-
   datasource:
     url: jdbc:postgresql://localhost:5432/AcademicEmploymentSystem
     username: postgres
@@ -19,6 +15,7 @@ spring:
       properties:
         hibernate:
           format-sql: true
+          dialect: org.hibernate.dialect.PostgreSQLDialect
         database: postgres
         database-platform: org.hibernate.dialect.PostgreSQLDialect
 

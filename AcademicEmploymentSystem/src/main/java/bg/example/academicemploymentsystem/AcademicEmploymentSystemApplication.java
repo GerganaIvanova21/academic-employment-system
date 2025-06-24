@@ -10,4 +10,6 @@ public class AcademicEmploymentSystemApplication {
         SpringApplication.run(AcademicEmploymentSystemApplication.class, args);
     }
 
+
+
 }

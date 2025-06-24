@@ -17,12 +17,12 @@ public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "faculty_id")
-    private Integer id;
+    private Long id;
 
     @Basic
     @Column(name = "name")
     private String facultyName;
 
-    @OneToMany(mappedBy = "faculty",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "faculty",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Department> departments = new HashSet<>();
 }
