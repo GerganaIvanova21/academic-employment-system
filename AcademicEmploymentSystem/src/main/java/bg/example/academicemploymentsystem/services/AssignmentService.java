@@ -2,6 +2,7 @@ package bg.example.academicemploymentsystem.services;
 
 import bg.example.academicemploymentsystem.entities.Assignment;
 import bg.example.academicemploymentsystem.entities.User;
+import bg.example.academicemploymentsystem.type.AssignmentType;
 import bg.example.academicemploymentsystem.type.Status;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,8 @@ public interface AssignmentService {
 
     List<Assignment> findAssignmentByStatus(Status status);
 
+    List<Assignment> findAssignmentByAssignmentType(AssignmentType assignmentType);
+
     //Всички задачи, възложени на потребител по статус - за да се изведат всички активни, завършени или
     // в изчакване задачи за конкретен потребител
     List<Assignment> findAssignmentByAssignedToAndStatus(User assignedTo, Status status);
@@ -32,6 +35,12 @@ public interface AssignmentService {
 
     //ПР: търсене на всички задачи с „доклад“ в заглавието
     List<Assignment> findByTitleContainingIgnoreCase(String title);
+
+    // Намиране на задачи с определен статус и тип за конкретен потребител (възложен)
+    List<Assignment> findByAssignedToAndStatusAndAssignmentType(User assignedTo, Status status, AssignmentType assignmentType);
+
+    // Намиране на задачи с определен статус и тип за конкретен потребител (възложител)
+    List<Assignment> findByAssignedByAndStatusAndAssignmentType(User assignedBy, Status status, AssignmentType assignmentType);
 
 
 }

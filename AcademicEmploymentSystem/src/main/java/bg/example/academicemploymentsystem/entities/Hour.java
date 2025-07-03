@@ -39,6 +39,10 @@ public class Hour {
     @Column(name = "room")
     private String room;
 
+    @Basic
+    @Column(name = "group")
+    private String group;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
@@ -46,5 +50,12 @@ public class Hour {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "report_id", nullable = false)
+    private Report report;
+
+
+
 
 }

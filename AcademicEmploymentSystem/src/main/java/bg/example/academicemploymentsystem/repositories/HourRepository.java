@@ -51,6 +51,15 @@ public interface HourRepository extends JpaRepository<Hour, Long> {
     //Всички часове за определен тип (лекции, упражнения) в дадена седмица
     List<Hour> findByTypeAndDayBetween(HourType type, LocalDate start, LocalDate end);
 
+    // извличане на всички часове за дадена група - сортирани по ден и начален час
+    List<Hour> findByGroupIgnoreCaseOrderByDayAscStartTimeAsc(String group);
+
+    // Всички часове за дадена група в конкретна дата
+    List<Hour> findByGroupIgnoreCaseAndDay(String group, LocalDate day);
+
+    // Всички часове за група и тип (лекция, упражнение и т.н.)
+    List<Hour> findByGroupIgnoreCaseAndType(String group, HourType type);
+
 
 
 

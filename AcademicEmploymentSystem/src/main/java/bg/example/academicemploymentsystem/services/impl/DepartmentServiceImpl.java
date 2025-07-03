@@ -1,6 +1,7 @@
 package bg.example.academicemploymentsystem.services.impl;
 
 
+import bg.example.academicemploymentsystem.config.SecurityUtils;
 import bg.example.academicemploymentsystem.dto.request.DepartmentRequestDTO;
 import bg.example.academicemploymentsystem.dto.response.DepartmentResponseDTO;
 import bg.example.academicemploymentsystem.entities.Department;
@@ -12,8 +13,6 @@ import bg.example.academicemploymentsystem.services.DepartmentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,10 +34,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Department> findAll() {
-        logger.info("Извличане на всички факултети.");
+        logger.info("Извличане на всички катедри.");
         List<Department> departments = departmentRepository.findAll();
         if (departments.isEmpty()) {
-            logger.warn("Няма налични факултети в базата данни.");
+            logger.warn("Няма налични катедри в базата данни.");
         }
         return departments;
     }
@@ -68,11 +67,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Department> findByDepartmentNameContainingIgnoreCase(String departmentNameFragment) {
-        logger.info("Търсене на факултет по име/ частично: {}", departmentNameFragment);
+        logger.info("Търсене на катедра по име/ частично: {}", departmentNameFragment);
         List<Department> result = departmentRepository.findByDepartmentNameContainingIgnoreCase(departmentNameFragment);
 
         if (result.isEmpty()) {
-            logger.warn("Не са намерени факултети, съдържащи: {}", departmentNameFragment);
+            logger.warn("Не са намерени катедри, съдържащи: {}", departmentNameFragment);
             throw new ResourceNotFoundException("Department", "departmentNameFragment", departmentNameFragment);
         }
         return result;
@@ -85,7 +84,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<Department> departments = departmentRepository.findAllByOrderByDepartmentNameAsc();
 
         if (departments.isEmpty()) {
-            logger.warn("Няма налични факултети в системата.");
+            logger.warn("Няма налични катедри в системата.");
             throw new ResourceNotFoundException("Faculty", "all", "empty list");
         }
 
@@ -125,12 +124,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         logger.info("Създаване на катедра с име: {}", requestDto.getDepartmentName());
 
         // Проверка за роля "Администратор"
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() ||
-                authentication.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
-            logger.warn("Неоторизиран опит за създаване на катедра.");
-            throw new SecurityException("Само администратори могат да създават катедри.");
-        }
+        SecurityUtils.checkAdminAccess();
 
         // Проверка дали факултетът съществува
         Faculty faculty = facultyRepository.findById(requestDto.getFacultyId())
@@ -158,12 +152,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentResponseDTO updateDepartment(Long id, DepartmentRequestDTO requestDTO) {
         logger.info("Редактиране на катедра с ID: {}", id);
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() ||
-                authentication.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
-            logger.warn("Неоторизиран опит за редактиране на катедра.");
-            throw new SecurityException("Само администратори могат да редактират катедри.");
-        }
+        SecurityUtils.checkAdminAccess();
 
         Department existingDepartment = departmentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Department", "id", id));
@@ -196,12 +185,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         logger.info("Изтриване на катедра по ID: {}", id);
 
         // Проверка за роля "Администратор"
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() ||
-                authentication.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
-            logger.warn("Неоторизиран опит за изтриване на катедра.");
-            throw new SecurityException("Само администратори могат да изтриват катедри.");
-        }
+        SecurityUtils.checkAdminAccess();
 
         // Проверка дали катедрата съществува
         Department department = departmentRepository.findById(id)

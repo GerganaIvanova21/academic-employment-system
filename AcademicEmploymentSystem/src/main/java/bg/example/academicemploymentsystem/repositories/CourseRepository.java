@@ -30,7 +30,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     boolean existsByCourseNameIgnoreCase(String courseName);
 
     //Търсене по име на курс и специалност
-    List<Course> findByCourseNameContainingIgnoreCaseAndSpecialityId(String nameFragment, Long specialityId);
+    List<Course> findByCourseNameContainingIgnoreCaseAndSpecialityId(String courseName, Long specialityId);
 
 
 

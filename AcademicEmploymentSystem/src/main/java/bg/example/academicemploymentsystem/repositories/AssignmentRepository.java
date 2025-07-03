@@ -2,6 +2,7 @@ package bg.example.academicemploymentsystem.repositories;
 
 import bg.example.academicemploymentsystem.entities.Assignment;
 import bg.example.academicemploymentsystem.entities.User;
+import bg.example.academicemploymentsystem.type.AssignmentType;
 import bg.example.academicemploymentsystem.type.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -21,9 +22,12 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     List<Assignment> findAssignmentByStatus(Status status);
 
+    List<Assignment> findAssignmentByAssignmentType(AssignmentType assignmentType);
+
     //Всички задачи, възложени на потребител по статус - за да се изведат всички активни, завършени или
     // в изчакване задачи за конкретен потребител
     List<Assignment> findAssignmentByAssignedToAndStatus(User assignedTo, Status status);
+
 
     //Всички задачи, възложени от потребител, подредени по дата
     List<Assignment> findAssignmentByAssignedByOrderByDueDateDesc(User assignedBy);
@@ -36,6 +40,14 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
     //Предстоящи задачи /в даден срок/
     List<Assignment> findByAssignedToAndDueDateBetween(User user, LocalDateTime start, LocalDateTime end);
+
+    //Намиране на задачи с определен статус и тип за конкретен потребител
+    List<Assignment> findByAssignedToAndStatusAndAssignmentType(User assignedTo, Status status, AssignmentType assignmentType);
+
+    List<Assignment> findByAssignedByAndStatusAndAssignmentType(User assignedBy, Status status, AssignmentType assignmentType);
+
+    boolean existsByAssignedToAndAssignmentTypeAndStatus(User assignedTo, AssignmentType assignmentType, Status status);
+
 
     //всички задачи, възложени от конкретен потребител след определена дата, сортирани по крайния срок в низходящ ред
     //List<Assignment> findByAssignedByAndStartDateAfterOrderByDueDateDesc(User assignedBy, LocalDateTime startDate);

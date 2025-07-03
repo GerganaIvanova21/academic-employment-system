@@ -87,8 +87,24 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "assignedTo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Assignment> assignmentsReceived;
 
+    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Evaluation> evaluationsCreated;
+
+    @OneToMany(mappedBy = "createdTo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Evaluation> evaluationsReceived;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Hour> hours = new HashSet<>();
+
+    @OneToMany(mappedBy = "preparedBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Report> reportsCreated;
+
+    @OneToMany(mappedBy = "preparedTo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Report> reportsReceived;
+
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Course> courses = new HashSet<>();
+
 
 
     @Override
@@ -120,6 +136,11 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
 
 
 

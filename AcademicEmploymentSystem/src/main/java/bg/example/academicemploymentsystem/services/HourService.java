@@ -30,4 +30,11 @@ public interface HourService {
 
     //Тъесене по тип и дата
     List<Hour> findByTypeAndDay(HourType type, LocalDate day);
+
+    List<Hour> findByGroupIgnoreCaseOrderByDayAscStartTimeAsc(String group);
+
+    List<Hour> findByGroupIgnoreCaseAndDay(String group, LocalDate day);
+
+    List<Hour> findByCourseIdOrderByDayAscStartTimeAsc(Long courseId);
+    List<Hour> findByCourseIdAndDay(Long courseId, LocalDate day);
 }

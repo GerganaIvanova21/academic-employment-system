@@ -31,6 +31,10 @@ public class Course {
     @JoinColumn(name = "speciality_id", nullable = false)
     private Speciality speciality;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teacher_id", nullable = false)
+    private User teacher;
+
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Hour> hours = new HashSet<>();
 }

@@ -19,6 +19,8 @@ public interface SpecialityRepository extends JpaRepository<Speciality, Long> {
 
     boolean existsBySpecialityNameIgnoreCase(String name);
 
+    boolean existsBySpecialityNameIgnoreCaseAndIdNot(String name, Long id);
+
 
 
 

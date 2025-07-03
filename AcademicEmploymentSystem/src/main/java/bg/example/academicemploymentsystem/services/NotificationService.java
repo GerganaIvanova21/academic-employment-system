@@ -2,7 +2,6 @@ package bg.example.academicemploymentsystem.services;
 
 import bg.example.academicemploymentsystem.entities.Notification;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface NotificationService {
@@ -22,5 +21,11 @@ public interface NotificationService {
     List<Notification> findByUserIdOrderByCreatedAtDesc(Long userId);
 
     //Всички стари и прочетени (например за администраторска чистка)
-    List<Notification> findBySeenTrueAndCreatedAtBefore(LocalDateTime dateTime);
+   // List<Notification> findBySeenTrueAndCreatedAtBefore(LocalDateTime dateTime);
+
+    Notification createNotification(Long userId, String message);
+
+    void markAsSeen(Long notificationId);
+
+    void deleteNotification(Long notificationId);
 }
